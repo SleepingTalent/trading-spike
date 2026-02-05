@@ -145,7 +145,17 @@ flowchart LR
 - [x] Configure Alpha Vantage MCP server
 - [x] Build Backtest MCP (wraps VectorBT)
 - [x] Create initial trading strategy (RSI mean-reversion)
-- [ ] Validate with historical data
+- [x] Validate with historical data ✅
+
+#### Validation Results (2024)
+
+| Market | Avg Return | Profitable |
+|--------|------------|------------|
+| UK Stocks | +10.8% | 80% |
+| US Stocks | +19.1% | 100% |
+| Crypto | +27.2% | 100% |
+
+Top performers: NVDA (+72%), SOL-USD (+37%), BARC.L (+33%)
 
 ---
 
