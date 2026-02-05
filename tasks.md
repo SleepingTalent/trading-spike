@@ -27,10 +27,10 @@
 - [x] Test with sample strategy (AAPL 2024: +18% optimized)
 
 ### 1.4 Create Initial Trading Strategy
-- [ ] Define entry signal logic (RSI oversold, etc.)
-- [ ] Define exit signal logic (RSI overbought, trailing stop)
-- [ ] Configure trailing stop parameters
-- [ ] Document strategy rules
+- [x] Define entry signal logic (RSI crosses below 30 = oversold)
+- [x] Define exit signal logic (RSI crosses above 70 OR trailing stop)
+- [x] Configure trailing stop parameters (default 3%, conservative 2%, aggressive 5%)
+- [x] Document strategy rules (src/backtest_mcp/strategy.py)
 
 ### 1.5 Validate with Historical Data
 - [ ] Backtest on UK stocks (LSE)
