@@ -10,10 +10,12 @@
 
 ### 1.2 Configure Alpha Vantage MCP Server
 - [x] Get Alpha Vantage API key (stored in .env)
-- [ ] Configure MCP server connection
-- [ ] Test data retrieval (quotes, time series)
-- [ ] Test technical indicators (RSI, MACD, etc.)
-- [ ] Test news sentiment endpoint
+- [x] Configure MCP server connection
+- [x] Test data retrieval (quotes, time series)
+- [x] Test technical indicators (RSI, MACD, etc.)
+- [x] Test news sentiment endpoint
+
+> **Note:** Free tier limited to 25 requests/day. Consider premium for production use.
 
 ### 1.3 Build Backtest MCP Server
 - [ ] Set up Python project structure

@@ -245,3 +245,31 @@ https://mcp.alphavantage.co/mcp?apikey=$ALPHA_VANTAGE_API_KEY
 # Or run locally
 uvx av-mcp $ALPHA_VANTAGE_API_KEY
 ```
+
+### 6. Test Alpha Vantage API
+
+Verify your API key works with these test commands:
+
+```bash
+# Load API key from .env
+source .env
+
+# Test quote data
+curl -s "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=AAPL&apikey=$ALPHA_VANTAGE_API_KEY"
+
+# Test RSI indicator
+curl -s "https://www.alphavantage.co/query?function=RSI&symbol=AAPL&interval=daily&time_period=14&series_type=close&apikey=$ALPHA_VANTAGE_API_KEY"
+
+# Test news sentiment
+curl -s "https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=AAPL&limit=5&apikey=$ALPHA_VANTAGE_API_KEY"
+```
+
+**Expected responses:**
+
+| Endpoint | Expected Output |
+|----------|-----------------|
+| GLOBAL_QUOTE | Current price, change %, volume |
+| RSI | Daily RSI values (14-period) |
+| NEWS_SENTIMENT | Recent news with sentiment scores (-1 to 1) |
+
+> **Rate Limits:** Free tier allows 25 requests/day. Space out requests by 1+ second to avoid throttling.
