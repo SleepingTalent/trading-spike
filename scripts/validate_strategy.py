@@ -141,17 +141,17 @@ def print_summary(results: list[BacktestResult], market_name: str):
 
 def print_results_table(all_results: list[BacktestResult]):
     """Print a formatted table of all results."""
-    print(f"\n{'='*80}")
+    print(f"\n{'='*88}")
     print("DETAILED RESULTS")
-    print(f"{'='*80}")
-    print(f"{'Symbol':<12} {'Market':<10} {'Return':>10} {'Sharpe':>8} {'Drawdown':>10} {'Win Rate':>10} {'Trades':>8}")
-    print("-" * 80)
+    print(f"{'='*88}")
+    print(f"{'Symbol':<12} {'Market':<18} {'Return':>10} {'Sharpe':>8} {'Drawdown':>10} {'Win Rate':>10} {'Trades':>8}")
+    print("-" * 88)
 
     for r in sorted(all_results, key=lambda x: x.total_return_pct, reverse=True):
         if r.error:
-            print(f"{r.symbol:<12} {r.market:<10} {'ERROR':>10}")
+            print(f"{r.symbol:<12} {r.market:<18} {'ERROR':>10}")
         else:
-            print(f"{r.symbol:<12} {r.market:<10} {r.total_return_pct:>+9.1f}% {r.sharpe_ratio:>8.2f} {r.max_drawdown_pct:>9.1f}% {r.win_rate_pct:>9.1f}% {r.total_trades:>8}")
+            print(f"{r.symbol:<12} {r.market:<18} {r.total_return_pct:>+9.1f}% {r.sharpe_ratio:>8.2f} {r.max_drawdown_pct:>9.1f}% {r.win_rate_pct:>9.1f}% {r.total_trades:>8}")
 
 
 async def run_optimization(symbol: str, name: str):

@@ -6,11 +6,14 @@ Provides tools for running backtests, analyzing performance, and optimizing para
 """
 
 import json
+import warnings
 from datetime import datetime
 from typing import Any
 
 import numpy as np
 import vectorbt as vbt
+
+warnings.filterwarnings("ignore", message="Metric '.*' requires frequency to be set")
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
