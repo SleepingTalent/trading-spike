@@ -141,10 +141,10 @@ flowchart LR
 
 ### Phase 1 Deliverables
 
-- [ ] Set up Ollama with Qwen 2.5 or DeepSeek-R1
-- [ ] Configure Alpha Vantage MCP server
-- [ ] Build Backtest MCP (wraps VectorBT)
-- [ ] Create initial trading strategy
+- [x] Set up Ollama with Qwen 2.5 or DeepSeek-R1
+- [x] Configure Alpha Vantage MCP server
+- [x] Build Backtest MCP (wraps VectorBT)
+- [x] Create initial trading strategy (RSI mean-reversion)
 - [ ] Validate with historical data
 
 ---
@@ -152,8 +152,8 @@ flowchart LR
 ## Open Questions
 
 - [ ] Broker preference? (Alpaca, Interactive Brokers, Binance, etc.)
-- [ ] Trailing stop type? (Fixed %, ATR-based, support-level)
-- [ ] Entry signal approach? (Momentum, mean reversion, breakouts)
+- [x] Trailing stop type? **Fixed %** (configurable: 2-5%)
+- [x] Entry signal approach? **Mean reversion** (RSI oversold/overbought)
 
 ---
 
@@ -300,3 +300,38 @@ uv run backtest-mcp
 Run a backtest on AAPL from 2024-01-01 to 2024-12-31
 using RSI=14, entry at 30, exit at 70, with 3% trailing stop
 ```
+
+---
+
+## Trading Strategy
+
+### RSI Mean-Reversion Strategy
+
+The system uses an RSI-based mean-reversion strategy with trailing stops for risk management.
+
+#### Entry Rules
+| Condition | Action |
+|-----------|--------|
+| RSI crosses **below 30** | **BUY** (oversold signal) |
+
+#### Exit Rules
+| Condition | Action |
+|-----------|--------|
+| RSI crosses **above 70** | **SELL** (overbought signal) |
+| Price drops **X%** from peak | **SELL** (trailing stop triggered) |
+
+#### Strategy Configurations
+
+| Config | RSI Window | Entry | Exit | Trailing Stop | Use Case |
+|--------|------------|-------|------|---------------|----------|
+| **Default** | 14 | 30 | 70 | 3% | Balanced approach |
+| **Conservative** | 14 | 25 | 75 | 2% | Fewer trades, tighter risk |
+| **Aggressive** | 10 | 35 | 65 | 5% | More trades, wider stops |
+
+#### Rationale
+
+- **RSI < 30**: Historically indicates oversold conditions where price may reverse upward
+- **RSI > 70**: Historically indicates overbought conditions where price may reverse downward
+- **Trailing Stop**: Locks in profits by selling if price retraces from its peak
+
+See [src/backtest_mcp/strategy.py](src/backtest_mcp/strategy.py) for full strategy implementation.
