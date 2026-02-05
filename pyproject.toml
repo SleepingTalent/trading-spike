@@ -9,4 +9,24 @@ dependencies = [
     "mcp>=1.0.0",
     "python-dotenv>=1.2.1",
     "vectorbt>=0.28.4",
+    "yfinance>=0.2.0",
 ]
+
+[project.scripts]
+backtest-mcp = "backtest_mcp.server:main"
+
+[tool.uv]
+package = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "pytest-asyncio>=1.3.0",
+    "taskipy>=1.14.1",
+]
+
+[tool.taskipy.tasks]
+test-backtest = "pytest tests/test_backtest.py -v"
