@@ -18,7 +18,7 @@ jobs:
         run: uv python install 3.12
 
       - name: Install dependencies
-        run: uv sync --all-groups
+        run: uv sync --group dev
 
       - name: Run backtest tests
-        run: uv run pytest tests/test_backtest.py -v
+        run: uv run task test-backtest
