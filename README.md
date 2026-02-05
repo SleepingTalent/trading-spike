@@ -176,3 +176,72 @@ flowchart LR
 | **Qwen 2.5 32B** | 18GB | ~25 tok/s | Recommended balance |
 | **DeepSeek-R1 32B** | 18GB | ~25 tok/s | Deep reasoning, step-by-step |
 | Phi-4 14B | 8GB | ~40 tok/s | Fast, lower memory |
+
+---
+
+## Setup
+
+### 1. Install Ollama
+
+```bash
+# macOS (Homebrew)
+brew install ollama
+
+# Or download directly from https://ollama.com/download
+```
+
+Start the Ollama service:
+```bash
+ollama serve
+```
+
+### 2. Pull LLM Model
+
+Choose one of the recommended models:
+
+```bash
+# Recommended: Qwen 2.5 32B (18GB, good balance)
+ollama pull qwen2.5:32b
+
+# Alternative: DeepSeek-R1 32B (18GB, step-by-step reasoning)
+ollama pull deepseek-r1:32b
+
+# Lighter option: Phi-4 14B (8GB, faster)
+ollama pull phi4:14b
+```
+
+### 3. Verify Installation
+
+```bash
+# Check model is available
+ollama list
+
+# Test with a trading analysis prompt
+ollama run deepseek-r1:32b "You are a trading analyst. Given RSI at 28 and MACD crossing above signal line, what trading action would you recommend? Be concise."
+```
+
+Expected response: The model should identify RSI < 30 as an **oversold condition** and MACD crossover as a **bullish signal**, recommending a potential **buy** opportunity.
+
+> **Note:** DeepSeek-R1 shows "Thinking..." while it reasons step-by-step. This is normal and may take 30-60 seconds for complex prompts.
+
+### 4. Get Alpha Vantage API Key
+
+1. Sign up at https://www.alphavantage.co/support/#api-key
+2. Store your API key securely (do not commit to git)
+
+```bash
+# Add to your shell profile (.zshrc or .bashrc)
+export ALPHA_VANTAGE_API_KEY="your_api_key_here"
+```
+
+### 5. Configure Alpha Vantage MCP
+
+The MCP server can be accessed via:
+
+```bash
+# Remote HTTP (no installation needed)
+https://mcp.alphavantage.co/mcp?apikey=$ALPHA_VANTAGE_API_KEY
+
+# Or run locally
+uvx av-mcp $ALPHA_VANTAGE_API_KEY
+```
