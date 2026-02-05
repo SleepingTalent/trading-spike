@@ -21,4 +21,4 @@ jobs:
         run: uv sync --all-groups
 
       - name: Run backtest tests
-        run: uv run task test-backtest
+        run: uv run pytest tests/test_backtest.py -v
