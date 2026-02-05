@@ -55,8 +55,9 @@ flowchart TB
 | Server | Status | Purpose |
 |--------|--------|---------|
 | Alpha Vantage MCP | ✅ Exists | Market data, 54 technical indicators, news sentiment, fundamentals |
-| Risk Manager MCP | 🔨 Build | Position limits, trailing stops, max daily loss, circuit breakers |
-| Backtest MCP | 🔨 Build | Wraps VectorBT for strategy validation |
+| Backtest MCP | ✅ Built | Wraps VectorBT for strategy validation |
+| Alpaca MCP | 🔨 Phase 2 | Paper trading execution, positions, account management (official server) |
+| Risk Manager MCP | 🔨 Phase 2 | Position limits, trailing stops, max daily loss, circuit breakers |
 
 ---
 
@@ -135,9 +136,19 @@ flowchart LR
 | Phase | Focus | Deliverable |
 |-------|-------|-------------|
 | **1. Data + Backtest** | Alpha Vantage MCP + VectorBT + LLM orchestration | Validate strategies historically |
-| **2. Paper Trading** | Risk Manager MCP, simulated execution | Prove real-time viability without capital |
+| **2. Paper Trading** | Risk Manager MCP, Alpaca paper trading, LLM orchestration loop | Prove real-time viability without capital |
 | **3. Single Market Live** | Pick one market (e.g., crypto 24/7) | Real execution with small capital |
 | **4. Multi-Market** | Expand to stocks, forex, commodities | Full system |
+
+### Phase 2 Deliverables
+
+- [ ] Alpaca paper trading integration (US stocks + crypto)
+- [ ] Risk Manager MCP server (safety limits that override LLM)
+- [ ] Shared caching layer for Alpha Vantage rate limit management
+- [ ] LLM orchestration loop (Ollama → MCP servers → autonomous trading)
+- [ ] Real-time monitoring and performance tracking
+
+See [tasks.md](tasks.md) for detailed sub-phase breakdown (2.1-2.5).
 
 ### Phase 1 Deliverables
 
@@ -161,7 +172,7 @@ Top performers: NVDA (+72%), SOL-USD (+37%), BARC.L (+33%)
 
 ## Open Questions
 
-- [ ] Broker preference? (Alpaca, Interactive Brokers, Binance, etc.)
+- [x] Broker preference? **Alpaca** (paper trading API, supports US stocks + crypto)
 - [x] Trailing stop type? **Fixed %** (configurable: 2-5%)
 - [x] Entry signal approach? **Mean reversion** (RSI oversold/overbought)
 
@@ -176,7 +187,7 @@ Top performers: NVDA (+72%), SOL-USD (+37%), BARC.L (+33%)
 | **LLM Model** | Qwen 2.5 32B / DeepSeek-R1 32B | Good reasoning, fits in memory |
 | **Data** | Alpha Vantage MCP | Market data + 54 technical indicators |
 | **Backtesting** | VectorBT | Fast vectorized backtests, native trailing stops |
-| **Broker API** | TBD | Interactive Brokers, Alpaca, or Binance |
+| **Broker API** | Alpaca | Paper trading (Phase 2), US stocks + crypto |
 
 ### Ollama Model Recommendations
 

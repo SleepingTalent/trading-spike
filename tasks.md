@@ -54,7 +54,94 @@
 ---
 
 ## Phase 2: Paper Trading
-> *To be planned after Phase 1 completion*
+
+### Architecture
+
+```
+Strategic Layer: Ollama (DeepSeek-R1 32B)
+  │  tool calls via ollama.chat(tools=[...])
+  ▼
+Orchestrator (src/orchestrator/)
+  │  MCP client sessions
+  │
+  ├──▶ Alpha Vantage MCP  [remote HTTP]  — market data, indicators, sentiment
+  ├──▶ Backtest MCP       [stdio]         — strategy validation (existing)
+  └──▶ Risk Manager MCP   [stdio]         — risk checks, then delegates to Alpaca
+          │
+          └──▶ Alpaca MCP Server [stdio]  — order execution, positions, account
+```
+
+**Key design decisions:**
+- Risk Manager is the **only** pathway to execution — LLM never calls Alpaca directly
+- Alpaca MCP server (official) provides 40+ tools for paper trading
+- UK stocks use a simulated local ledger (Alpaca doesn't support LSE)
+- Alpha Vantage free tier (25 req/day) managed via caching + using Alpaca for real-time prices
+- LLM sees a curated subset of ~15 tools (not all 40+ from Alpaca)
+
+### Market Support
+
+| Market | Execution | Data Source |
+|--------|-----------|-------------|
+| US Stocks | Alpaca paper trading | Alpaca MCP + Alpha Vantage |
+| Crypto | Alpaca paper trading | Alpaca MCP + Alpha Vantage |
+| UK Stocks (LSE) | Simulated ledger | Alpha Vantage + yfinance |
+
+### 2.1 Alpaca Integration + Execution Layer
+- [ ] Add `alpaca-py` and `alpaca-mcp-server` dependencies
+- [ ] Create `src/execution/alpaca_client.py` — MCP client wrapper for Alpaca server
+- [ ] Create `src/execution/models.py` — Order, Position, AccountInfo dataclasses
+- [ ] Create `src/execution/market_hours.py` — market hours awareness (US, UK, crypto)
+- [ ] Create `src/execution/simulated_ledger.py` — JSON-based position ledger for UK stocks
+- [ ] Add `scripts/test_alpaca_connection.py` — end-to-end paper trading test
+- [ ] Add unit tests with mocked MCP session
+- [ ] Update `.env.example` with Alpaca keys
+
+### 2.2 Risk Manager MCP Server
+- [ ] Create `src/risk_manager_mcp/server.py` — MCP server (follows backtest_mcp pattern)
+- [ ] Create `src/risk_manager_mcp/rules.py` — RiskConfig with safety limits:
+  - Max 10% of portfolio per position
+  - Max 5 concurrent positions
+  - Max 3% daily loss (circuit breaker)
+  - Max 2% loss per trade
+  - 3% trailing stop on all positions
+  - Max 10 trades/day, min 60s between orders
+- [ ] Create `src/risk_manager_mcp/state.py` — portfolio state tracking, daily P&L
+- [ ] Implement tools: `check_and_submit_order`, `get_risk_status`, `get_positions`, `close_position`, `emergency_close_all`, `update_risk_config`
+- [ ] Circuit breaker: auto-close all positions when daily loss exceeds threshold
+- [ ] Risk Manager internally holds AlpacaExecutionClient (from 2.1)
+- [ ] Add comprehensive unit tests for all risk rules
+
+### 2.3 Shared Infrastructure + Caching
+- [ ] Create `src/shared/cache.py` — file-based response cache with TTL
+- [ ] Create `src/shared/rate_limiter.py` — Alpha Vantage daily request tracker (persisted)
+- [ ] Create `src/shared/config.py` — TradingConfig loaded from env vars
+- [ ] Create `src/shared/logging.py` — structured trading logger (JSON + human-readable)
+- [ ] Create `src/shared/mcp_client.py` — MCPServerManager for multi-server connections
+- [ ] Update `.gitignore` for `.cache/` directory
+- [ ] Add unit tests for all shared modules
+
+### 2.4 LLM Orchestration Loop
+- [ ] Create `src/orchestrator/agent.py` — TradingAgent with analyze→decide→execute cycle
+- [ ] Create `src/orchestrator/ollama_client.py` — Ollama wrapper with tool calling loop
+- [ ] Create `src/orchestrator/tool_bridge.py` — MCP tools → Ollama format, routing by prefix
+- [ ] Create `src/orchestrator/prompts.py` — system prompt, analysis/decision/review templates
+- [ ] Create `src/orchestrator/scheduler.py` — market-hours-aware scheduling loop
+- [ ] Create `src/orchestrator/models.py` — MarketAnalysis, TradeDecision, TradingCycleResult
+- [ ] Create `src/orchestrator/main.py` — entry point connecting all MCP servers
+- [ ] Add `config/watchlist.yaml` — symbols to monitor per market
+- [ ] Add `scripts/run_single_cycle.py` — one-shot trading cycle for testing
+- [ ] Add `ollama` and `pyyaml` dependencies
+- [ ] Add unit tests with mocked Ollama + mocked MCP servers
+
+### 2.5 Monitoring + Documentation + Polish
+- [ ] Create `src/monitoring/tracker.py` — SQLite-based performance tracker
+- [ ] Create `src/monitoring/alerts.py` — logging-based alerts for critical events
+- [ ] Create `scripts/dashboard.py` — formatted summary of trading activity
+- [ ] Wire PerformanceTracker into TradingAgent cycle
+- [ ] Update CI/CD to test all new packages
+- [ ] Add `ruff` linter configuration
+- [ ] Update README.md with Phase 2 setup instructions
+- [ ] Update CLAUDE.md with conventions for new packages
 
 ---
 
