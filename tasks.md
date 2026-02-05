@@ -18,13 +18,13 @@
 > **Note:** Free tier limited to 25 requests/day. Consider premium for production use.
 
 ### 1.3 Build Backtest MCP Server
-- [ ] Set up Python project structure
-- [ ] Install VectorBT
-- [ ] Create MCP server scaffold
-- [ ] Implement `run_backtest` tool
-- [ ] Implement `get_performance_metrics` tool
-- [ ] Implement `optimize_parameters` tool
-- [ ] Test with sample strategy
+- [x] Set up Python project structure (src/backtest_mcp/)
+- [x] Install VectorBT + yfinance
+- [x] Create MCP server scaffold
+- [x] Implement `run_backtest` tool
+- [x] Implement `get_performance_metrics` tool
+- [x] Implement `optimize_parameters` tool
+- [x] Test with sample strategy (AAPL 2024: +18% optimized)
 
 ### 1.4 Create Initial Trading Strategy
 - [ ] Define entry signal logic (RSI oversold, etc.)

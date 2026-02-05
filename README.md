@@ -273,3 +273,30 @@ curl -s "https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=AAPL&
 | NEWS_SENTIMENT | Recent news with sentiment scores (-1 to 1) |
 
 > **Rate Limits:** Free tier allows 25 requests/day. Space out requests by 1+ second to avoid throttling.
+
+### 7. Run Backtest MCP Server
+
+The Backtest MCP server wraps VectorBT for strategy backtesting.
+
+```bash
+# Run the server
+uv run python -m backtest_mcp.server
+
+# Or via entry point
+uv run backtest-mcp
+```
+
+**Available Tools:**
+
+| Tool | Description |
+|------|-------------|
+| `run_backtest` | Run RSI strategy with trailing stops on historical data |
+| `get_performance_metrics` | Get detailed performance stats (Sharpe, drawdown, win rate) |
+| `optimize_parameters` | Find best RSI window and trailing stop combinations |
+
+**Example usage with Claude:**
+
+```
+Run a backtest on AAPL from 2024-01-01 to 2024-12-31
+using RSI=14, entry at 30, exit at 70, with 3% trailing stop
+```
