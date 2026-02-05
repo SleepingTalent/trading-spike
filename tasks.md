@@ -3,13 +3,13 @@
 ## Phase 1: Data + Backtest
 
 ### 1.1 Set up Ollama with LLM
-- [ ] Install Ollama on Mac
-- [ ] Pull Qwen 2.5 32B or DeepSeek-R1 32B model
-- [ ] Verify model runs locally
-- [ ] Test basic prompts for trading analysis
+- [x] Install Ollama on Mac
+- [x] Pull DeepSeek-R1 32B model
+- [x] Verify model runs locally
+- [x] Test basic prompts for trading analysis
 
 ### 1.2 Configure Alpha Vantage MCP Server
-- [ ] Get Alpha Vantage API key
+- [x] Get Alpha Vantage API key (stored in .env)
 - [ ] Configure MCP server connection
 - [ ] Test data retrieval (quotes, time series)
 - [ ] Test technical indicators (RSI, MACD, etc.)
