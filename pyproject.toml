@@ -5,6 +5,7 @@ description = "LLM-orchestrated autonomous trading system with MCP servers and V
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "alpaca-py>=0.35.0",
     "httpx>=0.28.1",
     "mcp>=1.0.0",
     "python-dotenv>=1.2.1",

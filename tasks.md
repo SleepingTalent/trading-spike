@@ -87,14 +87,14 @@ Orchestrator (src/orchestrator/)
 | UK Stocks (LSE) | Simulated ledger | Alpha Vantage + yfinance |
 
 ### 2.1 Alpaca Integration + Execution Layer
-- [ ] Add `alpaca-py` and `alpaca-mcp-server` dependencies
-- [ ] Create `src/execution/alpaca_client.py` — MCP client wrapper for Alpaca server
-- [ ] Create `src/execution/models.py` — Order, Position, AccountInfo dataclasses
-- [ ] Create `src/execution/market_hours.py` — market hours awareness (US, UK, crypto)
-- [ ] Create `src/execution/simulated_ledger.py` — JSON-based position ledger for UK stocks
-- [ ] Add `scripts/test_alpaca_connection.py` — end-to-end paper trading test
-- [ ] Add unit tests with mocked MCP session
-- [ ] Update `.env.example` with Alpaca keys
+- [x] Add `alpaca-py` and `alpaca-mcp-server` dependencies
+- [x] Create `src/execution/alpaca_client.py` — MCP client wrapper for Alpaca server
+- [x] Create `src/execution/models.py` — Order, Position, AccountInfo dataclasses
+- [x] Create `src/execution/market_hours.py` — market hours awareness (US, UK, crypto)
+- [x] Create `src/execution/simulated_ledger.py` — JSON-based position ledger for UK stocks
+- [x] Add `scripts/test_alpaca_connection.py` — end-to-end paper trading test
+- [x] Add unit tests with mocked MCP session
+- [x] Update `.env.example` with Alpaca keys
 
 ### 2.2 Risk Manager MCP Server
 - [ ] Create `src/risk_manager_mcp/server.py` — MCP server (follows backtest_mcp pattern)
